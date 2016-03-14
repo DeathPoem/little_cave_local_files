@@ -1,0 +1,266 @@
+set nocompatible    " Use Vim defaults (much better!)  
+" Q means Ex mode, which I would never need, diable it!
+nnoremap Q <nop>    
+
+"===============
+" vundle --- begin
+"===============
+filetype off
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'jeaye/color_coded'
+" this would download clang-3.9 which would be a long time.
+
+Plugin 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'tomasr/molokai'
+
+Plugin 'rhysd/vim-clang-format'
+
+" required
+Plugin 'kana/vim-operator-user'
+
+Plugin 'dyng/ctrlsf.vim'
+
+Plugin 'kshenoy/vim-signature'
+
+Plugin 'nathanaelkane/vim-indent-guides'
+" use <leader>ig the trigger this 
+" greate powerful when write something in python
+
+"Plugin 'grep.vim'
+
+"Plugin 'easymotion/vim-easymotion'
+
+Plugin 'Valloric/YouCompleteMe'
+
+Plugin 'jiangmiao/auto-pairs'
+
+Plugin 'tpope/vim-fugitive'
+
+Plugin 'vim-airline/vim-airline'
+
+Plugin 'majutsushi/tagbar'
+
+Plugin 'ctrlpvim/ctrlp.vim'
+
+Plugin 'scrooloose/nerdtree'
+
+Plugin 'suan/vim-instant-markdown'
+
+"Plugin 'plasticboy/vim-markdown'
+
+Plugin 'fatih/vim-go'
+
+"ultisnips awsome!!!
+Plugin 'SirVer/ultisnips'
+
+"Plugin 'scrooloose/syntastic'
+
+Plugin 'honza/vim-snippets'
+
+"Plugin 'szw/vim-tags'
+
+call vundle#end()
+filetype plugin indent on
+"===============
+"vundle --- end
+"===============
+
+
+"===============
+"usual setting
+"==================
+" 定义快捷键的前缀，即<Leader>
+let mapleader=";"
+set wildmenu
+set ignorecase
+
+" to display statusline always
+set laststatus=2
+set ruler
+set number
+set relativenumber
+syntax enable
+syntax on
+filetype indent on
+set encoding=utf-8 fileencodings=ucs-bom,utf-8,cp936
+
+" automatically transfer 'tab' into 'space'
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+" 在上下移动光标是，上下至少保留7行
+set scrolloff=7
+
+" ctags
+set autochdir
+set tags=tags;
+" ctags -R --c++-kind=+p --field=+iaS --extra=+q --language-force=C++ cpp_src
+
+" color
+set t_Co=256
+set background=dark
+colorscheme molokai
+
+" highlght the column and line
+set cursorcolumn
+set cursorline
+highlight CursorLine cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
+highlight CursorColumn cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
+
+"fold
+set foldmethod=indent
+
+"====
+"ctrlp
+"=======
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = "~"
+
+"================ 
+"nerdtree
+"=====================
+let NERDTreeQuitOnOpen = 0
+
+"====================
+"vim-instant-markdown
+"=========================
+"let g:instant_markdown_autostart = 0
+
+"============
+"vim-makrdown
+"=====================
+"let g:vim_markdown_frontmatter=1
+
+"===========
+""UltiSnips
+"=====================
+"" UltiSnips 的 tab 键与 YCM 冲突，重新设定
+let g:UltiSnipsExpandTrigger="j<enter>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+
+"============
+"vim-ycm
+"===================
+" 允许 vim 加载 .ycm_extra_conf.py 文件，0不再提示, 1 提示
+let g:ycm_confirm_extra_conf=1
+"
+let g:ycm_global_ycm_extra_conf = ' ~/.ycm_extra_conf.py'
+" enable ultisnips
+let g:ycm_use_ultisnips_completer = 1
+" 补全功能在注释中同样有效
+let g:ycm_complete_in_comments=1
+" 开启 ycm 标签补全引擎
+let g:ycm_collect_identifiers_from_tags_files=1
+" 补全内容以分割子窗口形式出现，不只是显示补全列表(1)
+let g:ycm_add_preview_to_completeopt=1
+" 从第一个键入字符就开始罗列匹配项
+let g:ycm_min_num_of_chars_for_completion=1
+" 禁止缓存匹配项，每次都重新生成匹配项
+let g:ycm_cache_omnifunc=0
+" 语法关键字补全         
+let g:ycm_seed_identifiers_with_syntax=1
+" 跳转 定义 声明
+nnoremap <leader>gv :YcmCompleter GoToDeclaration<CR>
+nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>gc :YcmCompleter GoToInclude<CR>
+nnoremap <leader>gg :YcmCompleter GoTo<CR>
+map <leader>gh :YcmCompleter FixIt<CR>
+" 显示启动补全
+let g:ycm_key_invoke_completion = '<leader>gj'
+"让vim的补全菜单行为与一般ide一致(参考vimtip1228)
+set completeopt=longest,menu
+"离开插入模式后自动关闭预览窗口
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+let g:ycm_error_symbol = 'E'
+let g:ycm_warning_symbol = 'W'
+"will put icons in Vim's gutter on lines that have a diagnostic set.
+"Turning this off will also turn off the YcmErrorLine and YcmWarningLine
+"highlighting
+let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_enable_diagnostic_highlighting = 0
+let g:ycm_always_populate_location_list = 1 "default 0
+let g:ycm_path_to_python_interpreter = '' "default ''
+
+"================
+"vim-tags
+"====================
+
+"==============
+"Syntastic
+"===================
+"let g:syntastic_cpp_compiler_options = ' -std=c++11'
+"let g:syntastic_cpp_compiler = 'clang++'
+"let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
+
+"===============
+"EasyMotion
+"===================
+
+"================
+" Plugin 'nathanaelkane/vim-indent-guides'
+" ==========================================
+set ts=4 sw=4 et
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+"let g:indent_guides_auto_colors = 0
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd guibg=red ctermbg=3
+"autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=grenn ctermbg=4
+
+"==================
+" Plugin color-coded
+" ========================
+" 
+let g:color_coded_enabled = 1
+
+"===============
+" Plugin for search in files
+" ==============
+
+" search in project, go to references
+nnoremap <Leader>gr :CtrlSF<CR>
+
+" ==================================================================
+" ===================== 一些脚本 和 从别人那里拿来的配置
+" F2 开关行号 not working yet
+function! HideNumber()
+    if(&relativenumber==&number)
+        set relativenumber! number!
+    elseif(&number)
+        set number!
+    else 
+        set relativenumber!
+    endif
+    set number?
+endfunc
+nnoremap <leader>g2 :call HideNumber()<CR>
+
+" =======================
+""设置可以高亮的关键字   NOT working yet
+"if has("autocmd")
+"    " Highlight TODO, FIXME, NOTE, etc.
+"    if v:version>701
+"        autocmd Syntax * call matchadd('TODO' '\W\zs\(TODO\|FIXME\|CHANGED\|DONE\|XXX\|BUG\|HACK\|FUCK\)')
+"        autocmd Syntax * call matchadd('Debug' '\W\zs\(NOTE\|INFO\|IDEA\|NOTICE\|FUCK\)')
+"    endif
+"endif
+"
+"
+" =================
+" clang format
+let g:clang_format#style_options = { "AccessModifierOffset" : -4, "AllowShortIfStatementsOnASingleLine" : "true", "AlwaysBreakTemplateDeclarations" : "true", "Standard" : "C++11" }
+" map to <Leader>cf in C++ code
+autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>

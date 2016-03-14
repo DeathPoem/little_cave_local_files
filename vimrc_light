@@ -1,0 +1,105 @@
+"
+"
+"
+"
+"
+"  Use this vim to support basic operation without install huge plugins !!
+"  
+"  
+"  
+"  
+set nocompatible    " Use Vim defaults (much better!)  
+" vundle
+filetype off
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'tomasr/molokai'
+
+Plugin 'tpope/vim-fugitive'
+
+Plugin 'vim-airline/vim-airline'
+
+Plugin 'majutsushi/tagbar'
+
+Plugin 'ctrlpvim/ctrlp.vim'
+
+call vundle#end()
+filetype plugin indent on
+"vundle
+
+
+set t_Co=256
+set tags+=./tags;
+"set tags+=/usr/local/share/ctags/qt4
+"you can add directories to your ctags lookup
+
+"========================
+"usual settings
+"====================================
+"ident related
+"=============
+filetype on
+filetype plugin on
+"" 自适应不同语言的智能缩进
+filetype indent on
+set autoindent
+set cindent
+"" 设置编辑时制表符占用空格数
+set tabstop=4
+"" 设置格式化时制表符占用空格数
+set shiftwidth=2
+"" 将制表符扩展为空格
+set expandtab
+"" 让 vim 把连续数量的空格视为一个制表符
+set softtabstop=4
+"有时中文会显示乱码，用一下几条命令解决 
+let &termencoding=&encoding 
+set fileencodings=utf-8,gbk 
+
+" 基于缩进或语法进行代码折叠
+"set foldmethod=indent
+set foldmethod=syntax
+" 启动 vim 时关闭折叠代码
+set nofoldenable
+set nowrap
+
+" 定义快捷键的前缀，即<Leader>
+let mapleader=";"
+" 开启实时搜索功能
+set incsearch
+" 搜索时大小写不敏感
+set ignorecase
+" vim 自身命令行模式智能补全
+set wildmenu
+" 总是显示状态栏
+set laststatus=2
+" 显示光标当前位置
+set ruler
+" 开启行号显示
+set number
+" 开启语法高亮功能
+syntax enable
+" 允许用指定语法高亮配色方案替换默认方案
+syntax on
+
+"===========================
+"colorscheme
+"====================
+set t_Co=256
+set background=dark
+"colorscheme solarized
+colorscheme molokai
+""colorscheme
+
+
+
+"====
+"ctrlp
+"=======
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = "~"

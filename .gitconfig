@@ -1,0 +1,9 @@
+[user]
+	name = Frank
+	email = wangzhihongji@sina.cn
+[core]
+	editor = /usr/bin/vim
+[branch]
+	autosetuprebase = always
+[alias]
+  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
