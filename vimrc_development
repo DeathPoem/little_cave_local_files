@@ -1,0 +1,300 @@
+
+
+"==========================
+"vundle
+"===============================
+set nocompatible               " be iMproved
+ filetype off                   " required!
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+"======================
+" plugin on GitHub repo
+"======================
+" For GitHub repos, you specify plugins using the 'user/repository' format
+
+"""" We could also add repositories with a '.git' extension
+
+"""" To get plugins from Vim Scripts, you can reference the plugin
+" by name as it appears on the site
+
+"YCM
+Plugin 'Valloric/YouCompleteMe'
+
+"scrooloose/syntastic
+"Plugin 'scrooloose/syntastic'
+
+"syntastic in chinese
+"Plugin 'scrooloose/syntastic'
+
+"lean & mean status/tabline for vim that's light as air
+Plugin 'bling/vim-airline'
+
+"ultisnips awsome!!!
+Plugin 'SirVer/ultisnips'
+
+"You can match words and even regular expressions
+"Plugin 'edsono/vim-matchit'
+
+"Distinct highlighting of keywords vs values, JSON-specific (non-JS) warnings,quote concealing. useful!!! awsome!!!
+Plugin 'elzr/vim-json'
+
+"snipprt engine and snippt is seperated ?
+Plugin 'honza/vim-snippets'
+
+" a replace for "/" and "f" and "t" , I don't need this
+"Plugin 'justinmk/vim-sneak'
+
+":help ctrlp-commands   It is a useful thing for you to find files in vim
+"Plugin 'ctrlpvim/ctrlp.vim'
+
+"a Mercurial wrapper for Vim
+"Plugin 'ludovicchabant/vim-lawrencium'
+
+"browse the tags of the current file and get an overview of its structure
+Plugin 'majutsushi/tagbar'
+
+"The "Tag List" plugin is a source code browser plugin for Vim and"provides an overview of the structure of source code files and allows"you to efficiently browse through source code files for different"programming languages
+"Plugin 'vim-scripts/taglist.vim'
+
+"It uses signs to indicate added, modified and removed lines 
+"Plugin 'mhinz/vim-signify'
+
+"MARK DOWN THINGS
+"Plugin 'godlygeek/tabular'
+"Plugin 'plasticboy/vim-markdown'
+
+"the best Git wrapper
+Plugin 'tpope/vim-fugitive'
+
+"My goal is that by installing this plugin, you can remove all indenting related configuration from your vimrc
+"Plugin 'tpope/vim-sleuth'
+
+"This plugin is very powerful for HTML and XML editing
+"Plugin 'tpope/vim-surround'
+
+"open url from your browser awsome!!!
+"Plugin 'tyru/open-browser.vim'
+
+"swich from .source and .h
+"Plugin 'vim-scripts/a.vim'
+
+"a tree like file browser
+Plugin 'scrooloose/nerdtree'
+
+"color schemes
+Plugin 'tomasr/molokai'
+Plugin 'flazz/vim-colorschemes'
+
+
+
+"========================
+" All of your Plugins must be added before the following line
+"======================
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+
+""#下面是 vundle的一些命令代会会用到
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just
+":PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to
+
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+
+"========================
+"usual settings
+"====================================
+" 定义快捷键的前缀，即<Leader>
+let mapleader=";"
+" 开启实时搜索功能
+set incsearch
+" 搜索时大小写不敏感
+set ignorecase
+" vim 自身命令行模式智能补全
+set wildmenu
+" 总是显示状态栏
+set laststatus=2
+" 显示光标当前位置
+set ruler
+" 开启行号显示
+set number
+" 开启语法高亮功能
+syntax enable
+" 允许用指定语法高亮配色方案替换默认方案
+syntax on
+
+"since I have the sleuth , this indent thing is no longer needed , but
+"actually, sleuth is not that useful. So I would use these again
+"" 自适应不同语言的智能缩进
+filetype indent on
+"" 将制表符扩展为空格
+set expandtab
+"" 设置编辑时制表符占用空格数
+set tabstop=4
+"" 设置格式化时制表符占用空格数
+set shiftwidth=4
+"" 让 vim 把连续数量的空格视为一个制表符
+set softtabstop=4
+"有时中文会显示乱码，用一下几条命令解决 
+let &termencoding=&encoding 
+set fileencodings=utf-8,gbk 
+
+" 基于缩进或语法进行代码折叠
+"set foldmethod=indent
+set foldmethod=syntax
+" 启动 vim 时关闭折叠代码
+set nofoldenable
+set nowrap
+
+"===========================
+"colorscheme
+"====================
+set t_Co=256
+set background=dark
+"colorscheme solarized
+colorscheme molokai
+""colorscheme
+
+"===========================
+"ctags
+"===================
+"ctags --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+iaSl --extra=+q
+
+"===========
+"UltiSnips
+"=====================
+" UltiSnips 的 tab 键与 YCM 冲突，重新设定
+let g:UltiSnipsExpandTrigger="j<enter>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+
+
+"=================
+"YouCompleteMe
+"=======================
+"Ycm path for configure fil
+let g:ycm_global_ycm_extra_conf = "~/.ycm_extra_conf.py"
+let g:UltiSnipsSnippetDirectories=["mysnippets"]
+
+ " 补全功能在注释中同样有效
+ let g:ycm_complete_in_comments=1
+ " 允许 vim 加载 .ycm_extra_conf.py 文件，不再提示
+ let g:ycm_confirm_extra_conf=0
+ " 开启 YCM 标签补全引擎
+ let g:ycm_collect_identifiers_from_tags_files=1
+ " 引入 C++ 标准库tags
+ set tags+=/data/misc/software/misc./vim/stdcpp.tags
+ " YCM 集成 OmniCppComplete 补全引擎，设置其快捷键
+" inoremap <leader>; <C-x><C-o> 
+" 补全内容不以分割子窗口形式出现，只显示补全列表
+ "set completeopt-=preview
+ " 从第一个键入字符就开始罗列匹配项
+ let g:ycm_min_num_of_chars_for_completion=1
+ " 禁止缓存匹配项，每次都重新生成匹配项
+ let g:ycm_cache_omnifunc=0
+ " 语法关键字补全         
+ let g:ycm_seed_identifiers_with_syntax=1
+ nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
+ nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
+ nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+ map <leader>gh :YcmCompleter FixIt<CR>
+"let g:ycm_key_list_previous_completion=['<Up>']
+let g:ycm_key_invoke_completion = '<C-Space>'
+
+set completeopt=longest,menu	"让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif	"离开插入模式后自动关闭预览窗口
+
+
+"==================================================
+"==========                     ==================
+"========                         ===============
+"=====     other vim plugin          =========
+"===                                   ======
+
+
+
+
+"========
+"ctrlp 
+"===============
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+
+"===================
+"tyru/open-browser.vim
+"=========================
+" This is my setting. 
+" let g:netrw_nogx = 1 " disable netrw's gx mapping. 
+" nmap gx <Plug>(openbrowser-smart-search) 
+" vmap gx <Plug>(openbrowser-smart-search) 
+
+
+ " Open URI under cursor. 
+" nmap map-you-like <Plug>(openbrowser-open) 
+ " Open selected URI. 
+" vmap map-you-like <Plug>(openbrowser-open) 
+
+ " Search word under cursor. 
+" nmap map-you-like <Plug>(openbrowser-search) 
+ " Search selected word. vmap map-you-like <Plug>(openbrowser-search) 
+
+ " If it looks like URI, Open URI under cursor. 
+ " Otherwise, Search word under cursor. 
+" nmap <c-b> <Plug>(openbrowser-smart-search)
+"let g:openbrowser_default_search= 'askubuntu' 
+ " If it looks like URI, Open selected URI. 
+ " Otherwise, Search selected word. 
+" vmap map-you-like <Plug>(openbrowser-smart-search) 
+
+ " In command-line 
+" :OpenBrowser http://google.com/ 
+" :OpenBrowserSearch ggrks 
+" :OpenBrowserSmartSearch http://google.com/ 
+" :OpenBrowserSmartSearch ggrks 
+
+" ===============
+" syntastic
+" ====================
+let g:syntastic_error_symbol = "✗"                                               
+"let g:syntastic_error_symbol = 'E'                                               
+let g:syntastic_warning_symbol = "⚠"
+"let g:syntastic_warning_symbol = 'W'
+" -------------this is pasted by web{
+let g:syntastic_check_on_open=1
+let g:syntastic_enable_highlighting = 0
+"let g:syntastic_python_checker="flake8,pyflakes,pep8,pylint"
+let g:syntastic_python_checkers=['pyflakes']
+""highlight SyntasticErrorSign guifg=white guibg=black
+let g:syntastic_ruby_checkers=['errors-only', 'warnings-and-errors']
+let g:syntastic_cpp_include_dirs = ['/usr/include/']
+let g:syntastic_cpp_remove_include_errors = 1
+let g:syntastic_cpp_check_header = 1
+let g:syntastic_cpp_compiler = 'clang++'
+let g:syntastic_cpp_compiler_options = '-std=c++11 -stdlib=libstdc++'
+let g:syntastic_enable_balloons = 1	"whether to show balloons
+" ---------------}
+
+" ===============
+" ctrlp
+" ==================
+let g:ctrlp_working_path_mode = "~"
+
+"================ 
+"nerdtree
+"=====================
+let NERDTreeQuitOnOpen = 0
