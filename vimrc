@@ -9,6 +9,7 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'tomasr/molokai'
 
+Plugin 'tpope/vim-fugitive'
 call vundle#end()
 filetype plugin indent on
 "vundle
