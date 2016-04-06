@@ -10,6 +10,11 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'tomasr/molokai'
 
 Plugin 'tpope/vim-fugitive'
+
+Plugin 'vim-airline/vim-airline'
+
+Plugin 'majutsushi/tagbar'
+
 call vundle#end()
 filetype plugin indent on
 "vundle
