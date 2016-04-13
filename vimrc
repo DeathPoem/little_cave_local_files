@@ -33,5 +33,8 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set t_Co=256
+set tags=./tags;/
+"set tags+=/usr/local/share/ctags/qt4
+"you can add directories to your ctags lookup
 set background=dark
 colorscheme molokai
