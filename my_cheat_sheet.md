@@ -205,6 +205,14 @@
 
 	control tcp through kernel, for example, limit tcp-pkg size.
 
+* ssh-copy-id
+
+```
+ssh-copy-id -i ~/.ssh/id_rsa.pub remote-host
+```
+
+* dmesg 查看内核oom 的kill
+
 * sock
 
 		$sock -v -u -i 10.0.0.3 discard
