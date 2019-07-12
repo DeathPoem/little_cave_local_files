@@ -243,13 +243,29 @@ ssh-copy-id -i ~/.ssh/id_rsa.pub remote-host
 As regex is used almost every where, we would **introduce few simple example, after syntax**
 
 	```
-	^ 表示一行的开头。如：/^#/ 以#开头的匹配。
-	$ 表示一行的结尾。如：/}$/ 以}结尾的匹配。
-	\< 表示词首。 如 \<abc 表示以 abc 为首的詞。
-	\> 表示词尾。 如 abc\> 表示以 abc 結尾的詞。
-	. 表示任何单个字符。
-	* 表示某个字符出现了0次或多次。
-	[  ] 字符集合。 如：[abc]表示匹配a或b或c，还有[a-zA-Z]表示匹配所有的26个字符。如果其中有^表示反，如[^a]表示非a的字符
+	^	The pattern has to appear at the beginning of a string.	^cat matches any string that begins with cat
+	$	The pattern has to appear at the end of a string.	cat$ matches any string that ends with cat
+	.	Matches any character.	cat. matches catT and cat2 but not catty
+	[]	Bracket expression. Matches one of any characters enclosed.	gr[ae]y matches gray or grey
+	[^]	Negates a bracket expression. Matches one of any characters EXCEPT those enclosed.	1[^02] matches 13 but not 10 or 12
+	[-]	Range. Matches any characters within the range.	[1-9] matches any single digit EXCEPT 0
+	?	Preceeding item must match one or zero times.	colou?r matches color or colour but not colouur
+	+	Preceeding item must match one or more times.	be+ matches be or bee but not b
+	*	Preceeding item must match zero or more times.	be* matches b or be or beeeeeeeeee
+	()	Parentheses. Creates a substring or item that metacharacters can be applied to	a(bee)?t matches at or abeet but not abet
+	{n}	Bound. Specifies exact number of times for the preceeding item to match.	[0-9]{3} matches any three digits
+	{n,}	Bound. Specifies minimum number of times for the preceeding item to match.	[0-9]{3,} matches any three or more digits
+	{n,m}	Bound. Specifies minimum and maximum number of times for the preceeding item to match.	[0-9]{3,5} matches any three, four, or five digits
+
+	POSIX Character Classes
+	[:alnum:]	alphanumeric character	[[:alnum:]]{3} matches any three letters or numbers, like 7Ds
+	[:alpha:]	alphabetic character, any case	[[:alpha:]]{5} matches five alphabetic characters, any case, like aBcDe
+	[:blank:]	space and tab	[[:blank:]]{3,5} matches any three, four, or five spaces and tabs
+	[:digit:]	digits	[[:digit:]]{3,5} matches any three, four, or five digits, like 3, 05, 489
+	[:lower:]	lowercase alphabetics	[[:lower:]] matches a but not A
+	[:punct:]	punctuation characters	[[:punct:]] matches ! or . or , but not a or 3
+	[:space:]	all whitespace characters, including newline and carriage return	[[:space:]] matches any space, tab, newline, or carriage return
+	[:upper:]	uppercase alphabetics	[[:upper:]] matches A but not a
 	```
 
 * Example [ref](https://code.tutsplus.com/tutorials/8-regular-expressions-you-should-know--net-6149)
