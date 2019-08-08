@@ -167,21 +167,39 @@
 		
 ### Bash
 
+* execute with stdout and stderr split into variable
+
+	```bash
+	function CmdSplitErr { # https://unix.stackexchange.com/questions/430161/redirect-stderr-and-stdout-to-different-variables-without-temporary-files
+		RET4_CmdSplitErr_out=$($1 2>/dev/fd/3)
+		RET4_CmdSplitErr_err=$(cat <&3)
+	} 3<<EOF
+	EOF
+
+	function echo2stderr {
+		echo "$@" 1>&2
+	}
+	```
+
 * netstat
 
-	* netstat --listen # show ip & port listened
+	```
+	netstat --listen # show ip & port listened
+	```
 	
 * ifconfig 
 
-	* $ sudo ifconfig eth0 down
-	* $ sudo ifconfig eth0 up
-	* $ ifconfig eth0 mtu 1000 // set mtu
+	```bash
+	$ sudo ifconfig eth0 down
+	$ sudo ifconfig eth0 up
+	$ ifconfig eth0 mtu 1000 // set mtu
+	```
 
-* bask-develop-tool [ref](http://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/ldd.html)
+* bash-develop-tool [ref](http://linuxtools-rst.readthedocs.io/zh_CN/latest/tool/ldd.html)
 
 * history 
 	
-		* [C-r] to search history reversely
+	* [C-r] to search history reversely
 
 * lsof 
 
@@ -192,10 +210,13 @@
 
 * vagrind 
 
-		* valgrind --tool=callgrind ./path/to/executable [how to profile](https://softwarerecs.stackexchange.com/questions/9992/linux-c-profiler)
-		* valgrind --track-fds=yes --leak-check=full --undef-value-errors=yes ./run_loops.sh
+	```bash
+	valgrind --tool=callgrind ./path/to/executable 
+	# [how to profile](https://softwarerecs.stackexchange.com/questions/9992/linux-c-profiler)
+	valgrind --track-fds=yes --leak-check=full --undef-value-errors=yes ./run_loops.sh
+	```
 
-* echo
+* echo colorful
 
 	* escape ascii , ascii control [ref](https://stackoverflow.com/questions/2616906/how-do-i-output-coloured-text-to-a-linux-terminal)
 
@@ -207,29 +228,36 @@
 
 * ssh-copy-id
 
-```
-ssh-copy-id -i ~/.ssh/id_rsa.pub remote-host
-```
+	```
+	ssh-copy-id -i ~/.ssh/id_rsa.pub remote-host
+	```
 
 * dmesg 查看内核oom 的kill
 
-* sock
-
-		$sock -v -u -i 10.0.0.3 discard
+	```
+	dmesg
+	```
 
 * ln
     
-		ln -s /original /softlink   // make softlink
+	```
+	ln -s /original /softlink   // make softlink
+	```
 
 * ps
 
-		ps aux | grep "nodejs"  // 搜索关于nodejs的进程
+	```
+	ps aux | grep "nodejs"  // 搜索关于nodejs的进程
+	pgrep -f 'nodejs'
+	```
 
-* nc
+* nc - arbitrary TCP and UDP connections and listens
 	```
 	$nc -l 1567
 	$nc 127.0.0.1 1567
+	$ nc -s 10.1.2.3 host.example.com 42
 	```
+
 * awk and sed [awk----ref](http://coolshell.cn/articles/9070.html/comment-page-1#comments) [sed---ref](http://coolshell.cn/articles/9104.html)
 	```
 	$awk '{print $1, $4}' ${filename} // $0 means whole line
@@ -299,6 +327,7 @@ As regex is used almost every where, we would **introduce few simple example, af
 	// xargs has the similar function with -exec
 	$find . "(" -name "*.cc" -or -name "*.c" -or -name "*.cpp" -or -name "*.h" -or -name "*.hpp" ")" -print | xargs wc -l     // 一行打印项目行数
 	$find . -type f -name ".*.swp" -exec rm -f {} \;      // remove swp file in oneline
+	$fine / -regex '.*dlv'
 	```
 
 * tar
@@ -315,12 +344,14 @@ As regex is used almost every where, we would **introduce few simple example, af
 	$sudo apt-cache search
 	$sudo apt-get -f install        // -f = --fix-missing
 	```
+
 * locate, whereis, which
 	```
 	$whereis boost
 	$which man
 	$locate boost
 	```
+
 * kill, fg, bg, &
 	```
 	$kill ${jobNumber}
@@ -328,6 +359,7 @@ As regex is used almost every where, we would **introduce few simple example, af
 	$fg ${jobNumber}
 	$./output &             // will put the command to bankground running
 	```
+
 * detect file exist
 
 	```
