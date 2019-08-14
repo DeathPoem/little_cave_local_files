@@ -71,6 +71,12 @@
 
 * copy sub directory of git repo [ref](https://stackoverflow.com/questions/600079/how-do-i-clone-a-subdirectory-only-of-a-git-repository)
 
+* revert file to commit 
+
+	```
+	$git checkout <commit> -- [files]
+	```
+
 * checkout remote branches
 
 	```
@@ -185,6 +191,7 @@
 
 	```
 	netstat --listen # show ip & port listened
+	netstat -plnt
 	```
 	
 * ifconfig 
