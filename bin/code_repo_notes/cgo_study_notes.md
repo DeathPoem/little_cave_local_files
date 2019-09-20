@@ -35,3 +35,10 @@ fucckkkkk
     cside.c 'include' adopt.h and use imported Go-interface & supply exported C-interface
 
     then just let gcc 'magicaly automaticaly' compile it for you.
+
+* how Cgo build-in funcs work?
+
+    ```
+    func C.CString(string) *C.char // https://golang.org/cmd/cgo/
+    ```
+    It is a interface of CGO programming, how it works? how can I generate source code of it? I remenber I found it once, but without record. TODO

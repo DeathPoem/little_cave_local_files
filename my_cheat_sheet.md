@@ -71,6 +71,13 @@
 
 * copy sub directory of git repo [ref](https://stackoverflow.com/questions/600079/how-do-i-clone-a-subdirectory-only-of-a-git-repository)
 
+* git add interactive
+
+	https://git-scm.com/book/en/v2/Git-Tools-Interactive-Staging
+	```
+	git add -i
+	```
+
 * revert file to commit 
 
 	```
@@ -106,11 +113,23 @@
 	```
 	$git branch --contains <commitid>
 	```
+
 * two commit into one [ref](https://stackoverflow.com/questions/2563632/how-can-i-merge-two-commits-into-one)
+	
 	```
 	$git reset --soft "HEAD^"
 	$git reset --soft "commitId"
 	$git commit --amend
+	```
+
+	```
+	git rebase -i HEAD~5
+	```
+
+* merge a branch with one commit
+
+	```
+	git merge --squash HEAD@{2}
 	```
 	
 * git graph in terminal 
