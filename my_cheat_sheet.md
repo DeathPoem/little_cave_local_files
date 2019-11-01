@@ -206,6 +206,12 @@
 	}
 	```
 
+* findmnt
+
+* lsblk
+
+* df -h
+
 * netstat
 
 	```

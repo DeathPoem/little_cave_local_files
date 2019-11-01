@@ -2,11 +2,6 @@
 
 ### templates
 
-arbitary jump template
-
-[check](#10fuck)
-<a name="10fuck"></a>
-
 color template
 
 <font color="green" size="6">
@@ -41,4 +36,10 @@ fucckkkkk
     ```
     func C.CString(string) *C.char // https://golang.org/cmd/cgo/
     ```
-    It is a interface of CGO programming, how it works? how can I generate source code of it? I remenber I found it once, but without record. TODO
+
+    It is a interface of CGO programming, how it works? how can I generate source code of it? ~~remenber I found it once, but without record.~~
+    ```
+    go tool cgo goganeshawraper.go
+    cd ./_obj && grep CBytes ./*
+    ```
+    [ref](https://tiancaiamao.gitbooks.io/go-internals/content/zh/09.1.html)

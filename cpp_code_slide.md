@@ -1,4 +1,4 @@
-# This is code slide collection of cpp
+## This is code slide collection of cpp
 
 ### pseducode template
         <font color="green">
@@ -14,7 +14,7 @@
 fucckkkkk
 </font>
 
-# Preface
+## Preface
 
 1. [Design](#A)
 1. [Idiom](#B00)
@@ -253,9 +253,9 @@ c++ oop
 
 * Class(Type) design : For cpp, data abstraction is value-semantic, while obect-oriented is object-semantic. value-semantic means this can be copy, and object-semantic means copy from this is meaningless or abuse. Data abstraction type is also defined by it's operation, like objecct-oriented, though it's value-semantic and copiable. Object-based is something google said "better c, c with class"
 
-| data sbstraction | object-based | object-oriented |
-| ---------------- | -----------  | -------------- |
-| value-semantic | object-semantic | object-semantic |
+| data sbstraction   | object-based                                 | object-oriented  |
+| ------------------ | -------------------------------------------- | ---------------- |
+| value-semantic     | object-semantic                              | object-semantic  |
 | may have oop-stuff | oop-stuff not inheritance and virtual method | all of oop-stuff |
 
 * RAII (Resource acquisition is initialization)
