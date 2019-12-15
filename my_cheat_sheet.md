@@ -476,4 +476,3 @@ As regex is used almost every where, we would **introduce few simple example, af
 * Law of Large Numbers
 
 * matrix 求快速幂
-    

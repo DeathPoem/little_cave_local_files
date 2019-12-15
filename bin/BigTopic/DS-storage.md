@@ -181,9 +181,125 @@ See mind_recalling.md -> OperationSystem -> File System
 
 * Polar FS: ParallelRaft
 
+https://www.zhihu.com/question/278984902
+
+look behind buffer
+
 * Aurora： 
   将数据库存储引擎做到块存储里，可以看到，它的设计里，数据是落日志即返回成功的
 
 * RAFT refine :
 http://mysql.taobao.org/monthly/2019/03/08/
 小文章： Raft phd 论文中的pipeline 优化
+
+* 4KB , disks are arranged in fixed-size blocks, why?
+
+* cache tiering 
+    https://docs.ceph.com/docs/master/rados/operations/cache-tiering/
+
+* https://www.cockroachlabs.com/blog/scaling-raft/     cockroach DB 的一个小文章
+
+* HDFSErasureCodingDesign-20150206
+
+* 傲腾内存原理： 
+https://searchstorage.techtarget.com/feature/An-in-depth-look-at-Optane-persistent-memory-and-its-operating-modes?src=5972279&asrc=EM_ERU_121013858&utm_content=eru-rd2-rcpE&utm_medium=EM&utm_source=ERU&utm_campaign=20191202_ERU%20Transmission%20for%2012/02/2019%20(UserUniverse:%20640520)
+
+* 京东云2019-12-10号遇到大量掉盘的问题 
+
+现象：12月5日连续坏盘导致CFS bj04集群受影响5-6个小时，影响情况非常恶劣
+
+问题原因：美光的5200 系列使用了Line cache的优化，但在某些IOPatern和频率的情况下有bug。
+
+解决方案是：升级硬盘的嵌入式程序，disable 掉 Line cache
+
+![分析和原因](https://photos.google.com/photo/AF1QipPzXQtuLMD8WTxTOzEWd3pB7RH_yM0yLD5a4OOL)
+
+![分析和原因](https://photos.google.com/photo/AF1QipNGYLhQzqKmOfKdnyhPv65uFfXaDz1xn0UKxcWd)
+
+
+* 云硬盘架构设计：如果基于重客户端方案，应该怎么做？
+
+1. 语义：
+(1.1) ybs-cli
+(1.2) rg
+(1.3) ybs-storage
+(1.4) Raft
+(1.5) diskopt
+
+2. 功能
+
+* 云硬盘架构设计：如果基于两副本，应该怎么做？
+
+语义，坏盘，机器down, 故障域策略
+
+1. 语义：
+
+(1.1) xbs-cli
+
+(1.1.1) func(vol, pageoff) = rg, pageoff
+
+(1.1.2) Q: why vol != rg, A: 1. meaning is not same, rg live longer 2.rg is solid size, vol is varied size
+
+(1.2) rg
+
+(1.2.1) funcX1(rg, pageoff) = [2]diskobj; diskobj={diskopt, pageoff}
+
+(1.2.2) Q: why rg != diskopt? A: 1. meaning is not same 2.if so, if disk breaks, build rg is hard
+
+(1.3) diskopt
+
+(1.3.1) func(io), diskopt = {optid, diskhardware}
+
+(1.4) xbs-storage
+
+(1.4.1) xbs-storage = {rgarr []rg, doptarr []diskopt}
+
+(1.5) RPC-analyze
+
+(1.5.1) xs have N num, RPCcon have N * N num.
+
+(1.5.2) IOpath
+
+(1.5.3) xbs-manager, XS.append before xbs-manager noticy
+
+2. 功能
+
+(2.1) Q: what if host of xbs down?
+
+(2.1.1) xbs-manager, find RPCcon(XCi, XS0) break or RPCcon(XSi,XS0) break, RWIO is pending.
+
+(2.1.2) xbs-manager, func(XS0) = tbrg []rg, func(tbrg) , func(tbrg) = tbdopt []diskopt to rebuild
+
+(2.1.3) foreach tbrg { choose XSk; XSk.rgarr = append(rg)}, RIO is recovered.
+
+(2.1.4) start XSj at host-j,  foreach XSj.tbopt { dopt.rebuild }
+
+(2.1.5) in dopt.rebuild RPCcon(XSj,XSi) is build, refer(1.2.1), funcX2(funcX1, d0 diskopt) = datasrc []{diskopt, pageoff}, data is copy from datasrc
+
+(2.1.6) after dopt.rebuild, XSj.doptarr = append(dopt), WIO is recovered.
+
+(2.1.6.1) copying IO can prior WIO-pending-num.
+
+(2.2) Q: xbs-manager down?
+
+(2.2.1) restart it, IO won't pend
+
+(2.3) Q: disk down?
+
+(2.3.1) refer (2.1.5), dopt.rebuild
+
+(2.4) Q: snapshot?
+
+(2.4.1) rgSnap between xbs-storage and rg
+
+(2.4.2) rg.page.meta = {version}, snap(VOL0) = [rgi.pagej.versionk, ...]
+
+(2.5) Q: vol, rg, disk mapping policy?
+
+(2.6) Q: performance?
+
+(2.6.1) diskopt can implemented by redo-log(journal)
+
+* 分布式RPC， 三态
+
+成功，失败, 超时
