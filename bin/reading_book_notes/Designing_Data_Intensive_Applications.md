@@ -2,6 +2,42 @@
 
 https://www.amazon.com/Designing-Data-Intensive-Applications-Reliable-Maintainable-ebook/dp/B06XPJML5D
 
+## Preface
+
+- [Reading Note For &quot;Designing Data Intensive Application&quot;](#reading-note-for-quotdesigning-data-intensive-applicationquot)
+  - [Preface](#preface)
+  - [Mind Mapping](#mind-mapping)
+  - [Concept Gallery](#concept-gallery)
+  - [Part Ⅰ. Foundations of Data Systems](#part-%e2%85%a0-foundations-of-data-systems)
+    - [CHAPTER 1 Reliable, Scalable, and Maintainable Applications](#chapter-1-reliable-scalable-and-maintainable-applications)
+      - [Reliability](#reliability)
+      - [Scalability](#scalability)
+      - [Maintainability](#maintainability)
+    - [CHAPTER 2 Data Models and Query Languages](#chapter-2-data-models-and-query-languages)
+      - [Relational Model Versus Document Model](#relational-model-versus-document-model)
+      - [Query Languages for Data](#query-languages-for-data)
+      - [Graph-Like Data Models](#graph-like-data-models)
+    - [CHAPTER 3 Storage and Retrieval](#chapter-3-storage-and-retrieval)
+      - [Data Structures That Power Your Database](#data-structures-that-power-your-database)
+      - [Transaction Processing or Analytics?](#transaction-processing-or-analytics)
+      - [Column-Oriented Storage](#column-oriented-storage)
+    - [Chapter 4. Encoding and Evolution](#chapter-4-encoding-and-evolution)
+      - [Formats for Encoding Data](#formats-for-encoding-data)
+      - [Modes of Dataflow](#modes-of-dataflow)
+  - [PART Ⅱ . Distributed Data](#part-%e2%85%a1--distributed-data)
+    - [CHAPTER 5 Replication](#chapter-5-replication)
+      - [Leaders and Followers](#leaders-and-followers)
+      - [Problems with Replication Lag](#problems-with-replication-lag)
+      - [Multi-Leader Replication](#multi-leader-replication)
+      - [Leaderless Replication](#leaderless-replication)
+    - [CHAPTER 6 Partitioning](#chapter-6-partitioning)
+      - [Partitioning and Replication](#partitioning-and-replication)
+      - [Partitioning of Key-Value Data](#partitioning-of-key-value-data)
+      - [Partitioning and Secondary Indexes](#partitioning-and-secondary-indexes)
+      - [Rebalancing Partitions](#rebalancing-partitions)
+      - [Request Routing](#request-routing)
+    - [CHAPTER 7 Transactions](#chapter-7-transactions)
+
 ## Mind Mapping
 
 ## Concept Gallery
@@ -9,7 +45,7 @@ https://www.amazon.com/Designing-Data-Intensive-Applications-Reliable-Maintainab
 1. Design aspect
 2. Tech, solution aspect
 
-## Part 1. Foundations of Data Systems
+## Part Ⅰ. Foundations of Data Systems 
 
 ### CHAPTER 1 Reliable, Scalable, and Maintainable Applications
 
@@ -239,13 +275,15 @@ tally different thing
 (1) Message brokers
 (2) Distributed actor frameworks
 
-## PART II Distributed Data
+## PART Ⅱ . Distributed Data
 
 (1) Scaling to Higher Load
 (2) Shared-Nothing Architectures
 (3) Replication Versus Partitioning/sharding
 
 ### CHAPTER 5 Replication
+
+Replication can serve several purposes: High availability; Disconnected; operation; Latency Scalability
 
 "single-leader, multi-leader, and leaderless replication"
 
@@ -292,3 +330,99 @@ latency (placing replicas geographically closer to users)
 *replication lag*
 
 1. Reading Your Own Writes
+
+*read-your-writes consistency*: you write, you can read
+*cross-device read-after-write consistency*
+
+2. Monotonic Reads
+
+3. Consistent Prefix Reads
+
+*consistent prefix reads* : This guarantee says that if a sequence of writes happens in a certain order,
+then anyone reading those writes will see them appear in the same order.
+
+4. Solutions for Replication Lag
+
+#### Multi-Leader Replication
+
+1. Use Cases for Multi-Leader Replication
+(1) Multi-datacenter operation
+(2) Clients with offline operation
+(3) Collaborative editing
+
+2. Handling Write Conflicts
+(1) Synchronous versus asynchronous conflict detection
+(2) Conflict avoidance
+(3) Converging toward a consistent state
+(4) Custom conflict resolution logic
+
+3. Multi-Leader Replication Topologies
+
+#### Leaderless Replication
+
+1. Writing to the Database When a Node Is Down
+
+(1) Read repair and anti-entropy
+
+(2) Quorums for reading and writing
+
+2. Limitations of Quorum Consistency
+
+3. Sloppy Quorums and Hinted Handoff
+
+(1) Multi-datacenter operation
+
+4. Detecting Concurrent Writes
+(1) Last write wins 
+(2) The “happens-before” relationship and concurrency
+(3) Capturing the happens-before relationship
+(4) Merging concurrently written values
+(5) version vector
+
+### CHAPTER 6 Partitioning
+
+#### Partitioning and Replication
+
+#### Partitioning of Key-Value Data
+*skewed* : If the partitioning is unfair, so that some partitions have more data or queries than others
+*hot spot*
+
+1. Partitioning by Key Range
+
+2. Partitioning by Hash of Key
+*Consistent Hashing*: It uses randomly chosen partition boundaries to avoid the need for central control or distributed consensus.
+
+3. Skewed Workloads and Relieving Hot Spots
+
+#### Partitioning and Secondary Indexes
+
+1. Partitioning Secondary Indexes by Document
+
+*scatter/ gather*: red cars appear in both partition 0 and partition 1. Thus, if you want to search for red cars, you need to send the query to all partitions, and combine all the results you get back.
+
+2. Partitioning Secondary Indexes by Term
+
+*term-partitioned*: because the term we’re looking for determines the partition of the index
+
+#### Rebalancing Partitions
+
+1. Strategies for Rebalancing
+
+(1) How not to do it: hash mod N
+(2) Fixed number of partitions
+(3) Dynamic partitioning
+(4) Partitioning proportionally to nodes
+
+2. Operations: Automatic or Manual Rebalancing
+
+#### Request Routing
+
+*service discovery*
+
+1. Parallel Query Execution
+
+### CHAPTER 7 Transactions
+
+*isolation levels*
+
+1. The Slippery Concept of a Transaction
