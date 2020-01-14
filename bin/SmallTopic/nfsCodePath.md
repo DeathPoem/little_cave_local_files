@@ -2,9 +2,9 @@
 
 based on github.com/torvalds/linux:b3a987b0264d3ddbb24293ebff10eddfc472f653
 
-## systemcall 2 NFS-layer
+## systemcall to NFS-layer
 
-### open systemcall 2 NFS-layer
+### open systemcall to NFS-layer
 
 ```mermaid
 graph TD
@@ -24,12 +24,11 @@ graph TD
   VF4 --- VF2
   VF5[fs/nfs/nfs4client.c:nfs4_init_client] --- VF3
   VF7[fs/nfs/client.c:nfs_init_client] --- VF3
-  VF2 --- VF6[fs/nfs/nfs4proc.c:nfs_v4_clientops]
-  VF2 --- VF8[fs/nfs/nfs3proc.c:nfs_v3_clientops]
-  VF2 --- VF9[fs/nfs/nfs4proc.c:nfs_v4_minor_ops]
-  VF6 --- VF0[NFS-layer]
-  VF8 --- VF0[NFS-layer]
-  VF9 --- VF0[NFS-layer]
+  VF0[NFS-layer] --- VF20[NFSvx]
+  VF20 --- VF6[fs/nfs/nfs4proc.c:nfs_v4_clientops]
+  VF20 --- VF8[fs/nfs/nfs3proc.c:nfs_v3_clientops]
+  VF20 --- VF9[fs/nfs/nfs4proc.c:nfs_v4_minor_ops]
+  VF3 --- VF0
 ```
 
 ### write systemcall 2 NFS-layer
@@ -47,7 +46,7 @@ graph TD
   S8 --- VFS0[NFS-layer]
 ```
 
-## NFS-layer
+## write op in NFS-layer
 
 
 ```mermaid
@@ -70,13 +69,18 @@ graph TD
   N11 --- N8
   N8 --- N9
   N9 --- N10
-  N10 --- N13[nfs_list_move_request]
+  N10 --- N13[include/linux/nfs_page.h:nfs_list_move_request]
   N6 --- N13
-  N14[nfs_pgio_common_ops]
   N10 --- N15[nfs_initiate_pgio]
   N9 --- N16[nfs_pgio_header_alloc]
   N16 --- N17[fs/nfs/pagelist.c:rw_ops = ops]
-
+  N15 --- N18[nfs_initiate_write]
+  N22[NFSvx] --- N19[fs/nfs/nfs4proc.c:nfs_v4_clientops]
+  N20[rpc_ops->write_setup]
+  N18 --- N20
+  N22 --- N21[fs/nfs/nfs3proc.c:nfs_v3_clientops]
+  N20 --- N22
+  N22 --- N23[fs/nfs/nfs4proc.c:nfs_v4_minor_ops]
 ```
 
 ### NFSv3
@@ -123,3 +127,14 @@ graph TD
 34. [fs/nfs/pagelist.c:nfs_pageio_do_add_request](https://github.com/torvalds/linux/blob/9e8312f5e160ade069e131d54ab8652cf0e86e1a/fs/nfs/pagelist.c#L968)
 35. [fs/nfs/pagelist.c:nfs_can_coalesce_requests](https://github.com/torvalds/linux/blob/9e8312f5e160ade069e131d54ab8652cf0e86e1a/fs/nfs/pagelist.c#L925)
 36. [fs/nfs/pagelist.c:rw_ops = ops](https://github.com/torvalds/linux/blob/9e8312f5e160ade069e131d54ab8652cf0e86e1a/fs/nfs/pagelist.c#L522)
+37. [fs/nfs/nfs3proc.c:nfs_v3_clientops](https://github.com/torvalds/linux/blob/0576f0602a4926b0027fdd7561a1c0053fa99d26/fs/nfs/nfs3proc.c#L984)
+38. [fs/nfs/nfs4proc.c:nfs_v4_clientops](https://github.com/torvalds/linux/blob/95207d554b968a552cc93a834af6c1ec295ebaba/fs/nfs/nfs4proc.c#L9996)
+39. [fs/nfs/pagelist.c:nfs_pgio_rw_ops](https://github.com/torvalds/linux/blob/9e8312f5e160ade069e131d54ab8652cf0e86e1a/fs/nfs/pagelist.c#L1346)
+40. [fs/nfs/pagelist.c:nfs_generic_pg_pgios](https://github.com/torvalds/linux/blob/a7b905c7d17ae0e5cf3d5687ba915efe27c9d19a/fs/nfs/pagelist.c#L819)
+41. [fs/nfs/pagelist.c:nfs_generic_pgio](https://github.com/torvalds/linux/blob/a7b905c7d17ae0e5cf3d5687ba915efe27c9d19a/fs/nfs/pagelist.c#L758)
+42. [fs/nfs/pagelist.c:nfs_pageio_doio](https://github.com/torvalds/linux/blob/a7b905c7d17ae0e5cf3d5687ba915efe27c9d19a/fs/nfs/pagelist.c#L1003)
+43. [fs/nfs/pagelist.c:__nfs_pageio_add_request](https://github.com/torvalds/linux/blob/a7b905c7d17ae0e5cf3d5687ba915efe27c9d19a/fs/nfs/pagelist.c#L1042)
+44. [include/linux/nfs_page.h:nfs_list_move_request](https://github.com/torvalds/linux/blob/a7b905c7d17ae0e5cf3d5687ba915efe27c9d19a/include/linux/nfs_page.h#L173)
+45. [fs/nfs/pagelist.c:nfs_initiate_pgio](https://github.com/torvalds/linux/blob/a7b905c7d17ae0e5cf3d5687ba915efe27c9d19a/fs/nfs/pagelist.c#L613)
+46. [fs/nfs/pagelist.c:nfs_pgio_header_alloc](https://github.com/torvalds/linux/blob/a7b905c7d17ae0e5cf3d5687ba915efe27c9d19a/fs/nfs/pagelist.c#L516)
+47. [fs/nfs/pagelist.c:rw_ops = ops](https://github.com/torvalds/linux/blob/a7b905c7d17ae0e5cf3d5687ba915efe27c9d19a/fs/nfs/pagelist.c#L522)
