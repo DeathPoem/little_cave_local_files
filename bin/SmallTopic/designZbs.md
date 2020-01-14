@@ -53,8 +53,7 @@ bad at race conflict
 
 (1) ybs-cli
 
-volume = []rg
-const rg.size = 10GB
+volume = []rgobj
 
 rg= [rgb1, rgb2, rgb3]
 
@@ -86,7 +85,9 @@ ybs-storage = {[]diskopt, []rgb}
 
 (4) rgb
 
-(4.1) rgb have a WAL to speed up
+(4.1) WriteRGB(data, rgb.page) = {write data to page; get version from mem; update version}
+
+(4.2) if some IO is error, and data is not atomic writen. anti-entropy will check and RepairData.
 
 (5) diskopt
 
@@ -122,7 +123,7 @@ sequenceDiagram
       ybsManager->>rgb3: update rg=[rgb1,rgb2,rgb4]
       ybsManager->>rgf: update rg=[rgb1,rgb2,rgb4]
   end
-  ybsManager->>rgf: load backend scan
+  ybsManager->>rgf: trigger backendScan(rgb4)
 ```
 
 (1.1) MoveRGBTx(oldRGB, newRGB, []rgf)
@@ -178,7 +179,7 @@ sequenceDiagram
 
 (3.1) A: eventually consistency
 
-(4) Q: write happens concurrently with read-repair
+(4) Q: write happens concurrently with stale-repair
 
 (4.1)  write is more recent compared to stale-repair
 
@@ -190,19 +191,43 @@ sequenceDiagram
 
 (1) location
 
-[]rgb must be located at different host
+(1.1) []rgb must be located at different host
+
+(1.2) func(Volume) = map\[rg\]rg.page, is loaded by ybs-manager
+
+(1.2.1) a volume should cover as more than 10 rg, for better max-throughput.
 
 (2) scaling
 
 cluster support 3PB * 3
 
-rg = 300K
+rg = 30K
 
-ybs-client have 500TB volume
+ybs-storage.size = 12 * 4TB = 48TB
+
+ybs-storage.rgbMap.size = 12 * 4TB / 1 GB = 48K
+
+ybs-storage can serve 10K~ client
+
+ybs-client have max=500TB, avg=(cluster.size * cluster.num / ybs.client.num) volume 
+
+ybs-client.num = 1K
 
 ybs-client.rgMap.size = 50K
 
 ybs-manager need be powerful to maintain rg around 1K ybs-client
+
+volume = volumeStep * N
+volumeStep.size = 10GB
+
+(2.1) const rg.size = 1GB, rgobj = 1GB
+
+(2.1.1) benifit is : 
+rgf is on (rg.size / rgobj) ybs-client
+a volume should cover as more than 10 rg, better throughtput
+
+(2.1.2) badside is : 
+when diskdown, you need as many backendScan as x=min(ybs-client.num, ybs-storage.rgbMap.size)
 
 #### Ybs multiple client
 

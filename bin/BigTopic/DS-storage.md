@@ -173,6 +173,10 @@ See mind_recalling.md -> OperationSystem -> File System
 
 ## Unordered topic
 
+* shadowPaging vs WriteAheadLog
+
+https://en.wikipedia.org/wiki/Shadow_paging
+
 * GFS: Evolution on Fast-Forward  [ref](https://wiki.ubc.ca/images/0/04/NewGFS.pdf)
 
 * Write amplification
@@ -228,3 +232,5 @@ https://mp.weixin.qq.com/s/1XwaD8GUSCf-nOk66yLr8w
 * 重新设计ZBS
 
 [ref](../SmallTopic/designZbs.md)
+
+* zbs-rg 太多的话，journal 空间就不好分配
